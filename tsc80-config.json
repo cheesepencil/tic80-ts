@@ -1,11 +1,11 @@
 {
   "tic": {
-    "ticExecutable": "path/to/tic/executable/file"
+    "ticExecutable": "d:/tic80/tic80.exe"
   },
   "compression": {
     "compressedFile": "build/compressed.js",
     "indentLevel": 1,
-    "compress": false,
-    "mangle": false
+    "compress": true,
+    "mangle": true
   }
 }
