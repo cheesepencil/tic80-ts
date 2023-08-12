@@ -1,0 +1,11 @@
+{
+  "tic": {
+    "ticExecutable": "path/to/tic/executable/file"
+  },
+  "compression": {
+    "compressedFile": "build/compressed.js",
+    "indentLevel": 1,
+    "compress": false,
+    "mangle": false
+  }
+}
