@@ -10,8 +10,8 @@ Some useful TIC80 snippets in TypeScript
 * [tsc80](https://github.com/scambier/tic80-typescript) - convenient bundler/transpiler
 
 ## To-Do
-* `[ ]` utility functions
+* `[x]` utility functions
 * `[ ]` simple tween
-* `[ ]` positional tween
+* `[x]` positional tween
 * `[ ]` sprite animation
 * `[ ]` fancy text
