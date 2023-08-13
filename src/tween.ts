@@ -17,8 +17,8 @@ class PositionTween {
     private frameCounterIncrement = 1
     private delayCompleted: boolean = false
     private done: boolean = false
-    private calledBack: boolean = false
     private repeatCounter: number = 0
+    private paused: boolean = false
 
     private config: TweenConfig
 
@@ -33,8 +33,24 @@ class PositionTween {
         }
     }
 
+    getAbsoluteProgress(): number {
+        let progress = this.frameCounter / this.config.durationFrames
+        progress = Math.min(progress, 1)
+        progress = Math.max(progress, 0)
+
+        return progress
+    }
+
+    getEasedProgress(): number {
+        const absoluteProgress = this.getAbsoluteProgress()
+        const easedProgress = this.config.easing!(absoluteProgress)
+
+        return easedProgress
+    }
+
     update(): void {
         if (this.done) return
+        if (this.paused) return
 
         if (!this.delayCompleted && this.frameCounter >= this.config.delayFrames!) {
             this.delayCompleted = true
@@ -42,11 +58,9 @@ class PositionTween {
         }
 
         if (this.delayCompleted) {
-            let progress = this.frameCounter / this.config.durationFrames
-            progress = Math.min(progress, 1)
-            progress = Math.max(progress, 0)
-
-            const easedProgress = this.config.easing!(progress)
+            const absoluteProgress = this.getAbsoluteProgress()
+            const easedProgress = this.getEasedProgress()
+            
             if (this.config.startX !== undefined && this.config.endX !== undefined) {
                 this.config.target.x = Util.lerp(this.config.startX, this.config.endX, easedProgress)
             }
@@ -54,23 +68,28 @@ class PositionTween {
                 this.config.target.y = Util.lerp(this.config.startY, this.config.endY, easedProgress)
             }
 
-            if (this.frameCounterIncrement > 0 && progress === 1) {
+            if (this.frameCounterIncrement > 0 && absoluteProgress === 1) {
                 if (this.config.yoyo) {
                     this.frameCounterIncrement = -1
                 } else {
                     this.repeatCounter++
                     this.frameCounter = 0
                 }
-            } else if (this.frameCounterIncrement < 0 && progress === 0) {
+            } else if (this.frameCounterIncrement < 0 && absoluteProgress === 0) {
                 this.repeatCounter++
                 this.frameCounterIncrement = 1
             }
 
             if (this.config.repeat! >= 0 && this.repeatCounter > this.config.repeat!) {
+                this.config.callback!()
                 this.done = true
             }
         }
 
         this.frameCounter += this.frameCounterIncrement
+    }
+
+    setPaused(paused: boolean): void {
+        this.paused = paused
     }
 }
