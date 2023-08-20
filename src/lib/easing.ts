@@ -36,16 +36,16 @@ class Easing {
     }
 
     // quartics
-    easeInQuart(t: number): number {
+    static easeInQuart(t: number): number {
         return t * t * t * t
     }
 
-    easeOutQuart(t: number): number {
+    static easeOutQuart(t: number): number {
         t -= 1
         return 1 - t * t * t * t
     }
 
-    easeInOutQuart(t: number): number {
+    static easeInOutQuart(t: number): number {
         if (t < .5) return 8 * t * t * t * t
         else {
             t -= 1
@@ -53,7 +53,7 @@ class Easing {
         }
     }
 
-    easeOutInQuart(t: number): number {
+    static easeOutInQuart(t: number): number {
         if (t < .5) {
             t -= .5
             return .5 - 8 * t * t * t * t
@@ -65,16 +65,16 @@ class Easing {
     }
 
     // overshoots
-    easeInOvershoot(t: number): number {
+    static easeInOvershoot(t: number): number {
         return 2.7 * t * t * t - 1.7 * t * t
     }
 
-    easeOutOvershoot(t: number): number {
+    static easeOutOvershoot(t: number): number {
         t -= 1
         return 1 + 2.7 * t * t * t + 1.7 * t * t
     }
 
-    easeInOutOvershoot(t: number): number {
+    static easeInOutOvershoot(t: number): number {
         if (t < .5) return (2.7 * 8 * t * t * t - 1.7 * 4 * t * t) / 2
         else {
             t -= 1
@@ -82,7 +82,7 @@ class Easing {
         }
     }
 
-    easeOutInOvershoot(t: number): number {
+    static easeOutInOvershoot(t: number): number {
         if (t < .5) {
             t -= .5
             return (2.7 * 8 * t * t * t + 1.7 * 4 * t * t) / 2 + .5
@@ -94,17 +94,17 @@ class Easing {
     }
 
     // elastics
-    easeInElastic(t: number): number {
+    static easeInElastic(t: number): number {
         if (t == 0) return 0
         return 2 ^ (10 * t - 10) * Util.picoCos(2 * t - 2)
     }
 
-    easeOutElastic(t: number): number {
+    static easeOutElastic(t: number): number {
         if (t == 1) return 1
         return 1 - 2 ^ (-10 * t) * Util.picoCos(2 * t)
     }
 
-    easeInOutElastic(t: number): number {
+    static easeInOutElastic(t: number): number {
         if (t < .5) return 2 ^ (10 * 2 * t - 10) * Util.picoCos(2 * 2 * t - 2) / 2
         else {
             t -= .5
@@ -112,7 +112,7 @@ class Easing {
         }
     }
 
-    easeOutInElastic(t: number): number {
+    static easeOutInElastic(t: number): number {
         if (t < .5) return .5 - 2 ^ (-10 * 2 * t) * Util.picoCos(2 * 2 * t) / 2
         else {
             t -= .5
@@ -121,7 +121,7 @@ class Easing {
     }
 
     // bouncing
-    easeInBounce(t: number): number {
+    static easeInBounce(t: number): number {
         t = 1 - t
         const n1 = 7.5625
         const d1 = 2.75
@@ -143,7 +143,7 @@ class Easing {
         }
     }
 
-    easeOutBounce(t: number): number {
+    static easeOutBounce(t: number): number {
         const n1 = 7.5625
         const d1 = 2.75
 

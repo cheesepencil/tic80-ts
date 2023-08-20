@@ -48,7 +48,7 @@ class PositionTween {
         return easedProgress
     }
 
-    update(): void {
+    TIC(): void {
         if (this.done) return
         if (this.paused) return
 
