@@ -14,14 +14,18 @@ class Util {
 
     // Simulates PICO-8's sin(), which takes "turns" as input instead of rads
     // and measures the angle in a clockwise direction
-    static picoSin(angle: number): number {
-        const rads = angle * (Math.PI * 2)
-        return -Math.sin(rads)
+    static picoSin(turns: number): number {
+        const rads = turns * (Math.PI * 2)
+        const result = -Math.sin(rads)
+
+        return result 
     }
 
     // Simulates PICO-8's cos(), which takes "turns" as input instead of rads
-    static picoCos(angle: number): number {
-        const rads = angle * (Math.PI * 2)
-        return Math.cos(rads)
+    static picoCos(turns: number): number {
+        const rads = turns * (Math.PI * 2)
+        const result = Math.cos(rads)
+
+        return result
     }
 }

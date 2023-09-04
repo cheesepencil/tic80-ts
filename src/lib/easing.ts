@@ -96,27 +96,27 @@ class Easing {
     // elastics
     static easeInElastic(t: number): number {
         if (t == 0) return 0
-        return 2 ^ (10 * t - 10) * Util.picoCos(2 * t - 2)
+        return 2 ** (10 * t - 10) * Util.picoCos(2 * t - 2)
     }
 
     static easeOutElastic(t: number): number {
         if (t == 1) return 1
-        return 1 - 2 ^ (-10 * t) * Util.picoCos(2 * t)
+        return 1 - 2 ** (-10 * t) * Util.picoCos(2 * t)
     }
 
     static easeInOutElastic(t: number): number {
-        if (t < .5) return 2 ^ (10 * 2 * t - 10) * Util.picoCos(2 * 2 * t - 2) / 2
+        if (t < .5) return 2 ** (10 * 2 * t - 10) * Util.picoCos(2 * 2 * t - 2) / 2
         else {
             t -= .5
-            return 1 - 2 ^ (-10 * 2 * t) * Util.picoCos(2 * 2 * t) / 2
+            return 1 - 2 ** (-10 * 2 * t) * Util.picoCos(2 * 2 * t) / 2
         }
     }
 
     static easeOutInElastic(t: number): number {
-        if (t < .5) return .5 - 2 ^ (-10 * 2 * t) * Util.picoCos(2 * 2 * t) / 2
+        if (t < .5) return .5 - 2 ** (-10 * 2 * t) * Util.picoCos(2 * 2 * t) / 2
         else {
             t -= .5
-            return 2 ^ (10 * 2 * t - 10) * Util.picoCos(2 * 2 * t - 2) / 2 + .5
+            return 2 ** (10 * 2 * t - 10) * Util.picoCos(2 * 2 * t - 2) / 2 + .5
         }
     }
 

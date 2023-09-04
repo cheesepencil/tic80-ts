@@ -21,8 +21,8 @@ class DemoScene implements Scene {
             delayFrames: Util.secondsToFrames(0.5),
             startX: 0,
             endX: 224,
-            easing: Easing.easeOutBounce,
-            yoyo: false,
+            easing: Easing.easeInOutElastic,
+            yoyo: true,
             repeat: -1,
         });
         this.tweens.push(tween)
