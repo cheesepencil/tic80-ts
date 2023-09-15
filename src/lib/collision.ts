@@ -20,7 +20,7 @@ class Collision {
     static intersectsBoxBox(
         box1: { x: number, y: number, w: number, h: number },
         box2: { x: number, y: number, w: number, h: number }
-    ) {
+    ): boolean {
         const xd = box1.x - box2.x
         const xs = box1.w * 0.5 + box2.w * 0.5
         if (Math.abs(xd) >= xs) return false
@@ -32,7 +32,7 @@ class Collision {
         return true
     }
 
-    static collideSideMap(sprite: Sprite, flag: number) {
+    static collideSideMap(sprite: Sprite, flag: number): boolean {
         const offset = sprite.w / 3
 
         for (let i = -offset; i += 2; i <= offset) {
@@ -53,7 +53,7 @@ class Collision {
         return false
     }
 
-    static collideFloorMap(sprite: Sprite, flag: number) {
+    static collideFloorMap(sprite: Sprite, flag: number): boolean {
         if (sprite.dy < 0) return false
 
         const offset = sprite.w / 3
@@ -71,4 +71,19 @@ class Collision {
 
         return landed
     }
+
+    static collideRoofMap(sprite: Sprite, flag: number) {
+        const offset = sprite.w / 3
+
+        for (let i = -offset; i += 2; i <= offset) {
+            const tile = mget((sprite.x + i) / 8, (sprite.y - (sprite.h / 2)) / 8)
+            if (fget(tile, flag)) {
+                sprite.dy = 0
+                sprite.y = Math.floor((sprite.y - (sprite.h / 2)) / 8) * 8 + 8 + (sprite.h / 2)
+                sprite.jumpHoldTime = 0
+            }
+
+        }
+    }
+
 }

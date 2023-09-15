@@ -18,8 +18,9 @@ class Sprite implements Positionable {
     h: number
     widthSprites: number
     heightSprites: number
-    grounded: boolean
-    airTime: number
+    grounded: boolean = false
+    airTime: number = 0
+    jumpHoldTime:number = 0
     index: number
     colorKey: number | number[]
 
@@ -32,8 +33,6 @@ class Sprite implements Positionable {
         this.w = this.widthSprites * 8
         this.heightSprites = config.heightSprites || 1
         this.h = this.heightSprites * 8
-        this.grounded = false
-        this.airTime = 0
         this.index = config.index
         this.colorKey = config.colorKey
     }

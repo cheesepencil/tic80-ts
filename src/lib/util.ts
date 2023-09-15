@@ -18,7 +18,7 @@ class Util {
         const rads = turns * (Math.PI * 2)
         const result = -Math.sin(rads)
 
-        return result 
+        return result
     }
 
     // Simulates PICO-8's cos(), which takes "turns" as input instead of rads
@@ -27,5 +27,9 @@ class Util {
         const result = Math.cos(rads)
 
         return result
+    }
+
+    static round(n: number) {
+        return Math.floor(n + 0.5)
     }
 }
