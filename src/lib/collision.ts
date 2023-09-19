@@ -32,20 +32,28 @@ class Collision {
         return true
     }
 
-    static collideSideMap(sprite: Sprite, flag: number): boolean {
-        const offset = sprite.w / 3
+    static collideSideMap(sprite: PlatformerSprite, flag: number): boolean {
+        const offset = sprite.h / 3
 
-        for (let i = -offset; i += 2; i <= offset) {
-            let tile = mget((sprite.x + offset) / 8, (sprite.y + i) / 8)
+        for (let i = -offset; i <= offset; i += 2) {
+            let spriteX = sprite.x
+            let tileX = spriteX / 8
+            let spriteY = sprite.y + (sprite.h / 2) + i
+            let tileY = spriteY / 8
+            let tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dx = 0
-                sprite.x = (Math.floor(((sprite.x + (offset)) / sprite.w)) * sprite.w) - (offset)
+                sprite.x = Math.floor(sprite.x / 8) * 8 + 8
                 return true
             }
-            tile = mget((sprite.x - offset) / 8, (sprite.y + i) / 8)
+            spriteX = sprite.x + sprite.w
+            tileX = spriteX / 8
+            spriteY = sprite.y + (sprite.h / 2) + i
+            tileY = spriteY / 8
+            tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dx = 0
-                sprite.x = (Math.floor((sprite.x - offset) / 8) * 8) + 8 + offset
+                sprite.x = Math.floor(spriteX / 8) * 8 - sprite.w
                 return true
             }
         }
@@ -53,16 +61,18 @@ class Collision {
         return false
     }
 
-    static collideFloorMap(sprite: Sprite, flag: number): boolean {
+    static collideFloorMap(sprite: PlatformerSprite, flag: number): boolean {
         if (sprite.dy < 0) return false
 
         const offset = sprite.w / 3
         let landed = false
-        for (let i = -offset; i += 2; i <= offset) {
-            let tile = mget((sprite.x + i) / 8, (sprite.y + (sprite.h / 2)) / 8)
+        for (let i = -offset; i <= offset; i += 2) {
+            let tileX = (sprite.x + sprite.w / 2 + i) / 8
+            let tileY = (sprite.y + (sprite.h)) / 8
+            let tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dy = 0
-                sprite.y = (Math.floor((sprite.y + (sprite.h / 2)) / 8) * 8) - (sprite.h / 2)
+                sprite.y = (Math.floor((sprite.y + (sprite.h)) / 8) * 8) - (sprite.h)
                 sprite.grounded = true
                 sprite.airTime = 0
                 landed = true
@@ -72,17 +82,20 @@ class Collision {
         return landed
     }
 
-    static collideRoofMap(sprite: Sprite, flag: number) {
+    static collideRoofMap(sprite: PlatformerSprite, flag: number) {
         const offset = sprite.w / 3
 
-        for (let i = -offset; i += 2; i <= offset) {
-            const tile = mget((sprite.x + i) / 8, (sprite.y - (sprite.h / 2)) / 8)
+        for (let i = -offset; i <= offset; i += 2) {
+            const spriteX = sprite.x + (sprite.w / 2) + i
+            const tileX = spriteX / 8
+            const spriteY = sprite.y
+            const tileY = spriteY / 8
+            const tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dy = 0
-                sprite.y = Math.floor((sprite.y - (sprite.h / 2)) / 8) * 8 + 8 + (sprite.h / 2)
+                sprite.y = Math.floor(sprite.y /8) * 8 + 8
                 sprite.jumpHoldTime = 0
             }
-
         }
     }
 

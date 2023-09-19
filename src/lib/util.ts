@@ -29,6 +29,10 @@ class Util {
         return result
     }
 
+    static clamp(n: number, min: number, max: number): number {
+        return Math.min(Math.max(n, min), max)
+    }
+
     static round(n: number) {
         return Math.floor(n + 0.5)
     }

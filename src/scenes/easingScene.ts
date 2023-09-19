@@ -1,11 +1,11 @@
-class DemoScene implements Scene {
-    private initialized = false
-    private sprites: Sprite[] = []
+/// <reference path="../lib/scene.ts" />
+
+class EasingScene extends Scene {
+    private sprites: PlatformerSprite[] = []
     private tweens: PositionTween[] = []
 
-    init(): void {
-        this.initialized = true
-        let ticGuy = new Sprite({
+    init = () => {
+        let ticGuy = new PlatformerSprite({
             x: 0,
             y: 32,
             heightSprites: 2,
@@ -27,7 +27,7 @@ class DemoScene implements Scene {
         });
         this.tweens.push(tween)
 
-        ticGuy = new Sprite({
+        ticGuy = new PlatformerSprite({
             x: 0,
             y: 96,
             heightSprites: 2,
@@ -50,18 +50,12 @@ class DemoScene implements Scene {
         this.tweens.push(tween)
     }
 
-    TIC(): void {
-        if (!this.initialized) this.init()
-
+    update = () => {
         this.tweens.map(tween => tween.TIC())
-        
-        cls(13)
-        this.sprites.map(sprite => sprite.draw())
-
-
-        // spr(1 + (((t % 60) / 30) | 0) * 2,
-        //     foo.x, foo.y, 14, 3, 0, 0, 2, 2)
-        // t++
     }
 
+    draw = () => {
+        cls(13)
+        this.sprites.map(sprite => sprite.draw())
+    }
 }

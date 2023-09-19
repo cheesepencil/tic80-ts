@@ -384,7 +384,7 @@ function printshadow(text,
 end
 
 function printsmall(text,x,y,col)
-    if(type(text)!="string")text=tostring(text)
+    if(type(text)!="string")text=tostr(text)
     pal(6,col)
     local cx,cy=x,y
     for i=1,#text do

@@ -3,9 +3,10 @@
 // desc:   short description
 // script: js
 
-/// <reference path="./src/scenes/demoScene.ts" />
+/// <reference path="./src/scenes/easingScene.ts" />
+/// <reference path="./src/scenes/platformerScene.ts" />
 
-const demoScene: DemoScene = new DemoScene()
+const demoScene: Scene = new PlatformerScene()
 
 function TIC() {
   demoScene.TIC()
