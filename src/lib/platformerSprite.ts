@@ -8,6 +8,7 @@ interface PlatformerSpriteConfig {
     index: number
     colorKey: number | number[]
     jumpButton?: number
+    camera?: Camera
 }
 
 class PlatformerSpriteButton {
@@ -66,6 +67,7 @@ class PlatformerSprite implements Positionable {
     airTime: number = 0
 
     // drawing
+    camera: Camera
     index: number
     colorKey: number | number[]
     flipX: boolean = false
@@ -80,6 +82,7 @@ class PlatformerSprite implements Positionable {
         this.index = config.index
         this.colorKey = config.colorKey
         this.jumpButton = new PlatformerSpriteButton(config.jumpButton || 4)
+        this.camera = config.camera || new Camera()
     }
 
     update() {
@@ -169,8 +172,8 @@ class PlatformerSprite implements Positionable {
     draw() {
         spr(
             this.index,
-            this.x,
-            this.y,
+            this.x - this.camera.x,
+            this.y - this.camera.y,
             this.colorKey,
             1, // scale
             this.flipX ? 1 : 0, // flip
