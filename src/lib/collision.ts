@@ -33,13 +33,15 @@ class Collision {
     }
 
     static collideSideMap(sprite: PlatformerSprite, flag: number): boolean {
+        if (!sprite.scene.map) return false
+
         const offset = sprite.h / 3
 
         for (let i = -offset; i <= offset; i += 2) {
             let spriteX = sprite.x
-            let tileX = spriteX / 8
+            let tileX = spriteX / 8 + sprite.scene.map.x
             let spriteY = sprite.y + (sprite.h / 2) + i
-            let tileY = spriteY / 8
+            let tileY = spriteY / 8 + sprite.scene.map.y
             let tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dx = 0
@@ -47,9 +49,9 @@ class Collision {
                 return true
             }
             spriteX = sprite.x + sprite.w
-            tileX = spriteX / 8
+            tileX = spriteX / 8 + sprite.scene.map.x
             spriteY = sprite.y + (sprite.h / 2) + i
-            tileY = spriteY / 8
+            tileY = spriteY / 8 + sprite.scene.map.y
             tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dx = 0
@@ -62,13 +64,14 @@ class Collision {
     }
 
     static collideFloorMap(sprite: PlatformerSprite, flag: number): boolean {
+        if (!sprite.scene.map) return false
         if (sprite.dy < 0) return false
 
         const offset = sprite.w / 3
         let landed = false
         for (let i = -offset; i <= offset; i += 2) {
-            let tileX = (sprite.x + sprite.w / 2 + i) / 8
-            let tileY = (sprite.y + (sprite.h)) / 8
+            let tileX = (sprite.x + sprite.w / 2 + i) / 8 + sprite.scene.map.x
+            let tileY = (sprite.y + (sprite.h)) / 8 + sprite.scene.map.y
             let tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dy = 0
@@ -83,20 +86,20 @@ class Collision {
     }
 
     static collideRoofMap(sprite: PlatformerSprite, flag: number) {
+        if (!sprite.scene.map) return false
         const offset = sprite.w / 3
 
         for (let i = -offset; i <= offset; i += 2) {
             const spriteX = sprite.x + (sprite.w / 2) + i
-            const tileX = spriteX / 8
+            const tileX = spriteX / 8 + sprite.scene.map.x
             const spriteY = sprite.y
-            const tileY = spriteY / 8
+            const tileY = spriteY / 8 + sprite.scene.map.y
             const tile = mget(tileX, tileY)
             if (fget(tile, flag)) {
                 sprite.dy = 0
-                sprite.y = Math.floor(sprite.y /8) * 8 + 8
+                sprite.y = Math.floor(sprite.y / 8) * 8 + 8
                 sprite.jumpHoldTime = 0
             }
         }
     }
-
 }

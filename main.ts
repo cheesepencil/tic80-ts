@@ -6,8 +6,20 @@
 /// <reference path="./src/scenes/easingScene.ts" />
 /// <reference path="./src/scenes/platformerScene.ts" />
 
-const demoScene: Scene = new PlatformerScene()
+const platformerScene: Scene = new PlatformerScene()
+const easingScene: Scene = new EasingScene()
+let activeScene: Scene = platformerScene
 
 function TIC() {
-  demoScene.TIC()
+  if (btnp(5)) {
+    if (activeScene === platformerScene) {
+      activeScene = easingScene
+    }
+    else {
+      activeScene = platformerScene
+    }
+  }
+  activeScene.TIC()
+  
+  print("Press B to switch scenes", 2, 2, 12)
 }

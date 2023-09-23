@@ -1,39 +1,39 @@
-/// <reference path="../lib/camera.ts" />
+/// <reference path="../lib/scene.ts" />
 
 class PlatformerScene extends Scene {
-    camera: Camera = new Camera()
-    platformerSprites: PlatformerSprite[] = []
-
     init = () => {
-        const platformerSprite = new PlatformerSprite({
-            x: 1 * 8,
-            y: 32 * 8,
-            heightSprites: 1,
-            widthSprites: 1,
-            index: 48,
-            colorKey: 0,
-            camera: this.camera
+        const platformerSprite = new PlatformerSprite(this,
+            {
+                ...new PlatformerSpriteConfig(),
+                x: 2 * 8,
+                y: 2 * 8,
+                heightSprites: 1,
+                widthSprites: 1,
+                index: 48,
+            })
+        this.sprites.push(platformerSprite)
+        this.camera.configure({
+            target: platformerSprite,
+            lerpX: 0.05,
+            lerpY: 0.05,
+            bounds: {
+                v1: new Vector(0, 0),
+                v2: new Vector(Constants.SCREEN_WIDTH * 2, Constants.SCREEN_HEIGHT)
+            }
         })
-        this.platformerSprites.push(platformerSprite)
-        this.camera.target = platformerSprite
-        this.camera.centerOn(platformerSprite)
+        this.map = new Map({
+            x: 60,
+            y: 34,
+            w: Constants.MAP_WIDTH_DEFAULT * 2,
+            h: Constants.MAP_HEIGHT_DEFAULT * 2
+        })
     }
 
     update = () => {
-        for (let sprite of this.platformerSprites) {
-            sprite.update()
-        }
 
-        this.camera.update()
     }
 
     draw = () => {
         cls(0)
-        map(0, 0,
-            59, 34,
-            -this.camera.x, -this.camera.y)
-        for (let sprite of this.platformerSprites) {
-            sprite.draw()
-        }
     }
 }

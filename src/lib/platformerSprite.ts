@@ -1,14 +1,9 @@
-interface PlatformerSpriteConfig {
-    x?: number
-    y?: number
+/// <reference path="../lib/sprite.ts" />
+
+class PlatformerSpriteConfig extends SpriteConfig {
     dx?: number
     dy?: number
-    widthSprites?: number
-    heightSprites?: number
-    index: number
-    colorKey: number | number[]
     jumpButton?: number
-    camera?: Camera
 }
 
 class PlatformerSpriteButton {
@@ -36,15 +31,7 @@ class PlatformerSpriteButton {
     }
 }
 
-class PlatformerSprite implements Positionable {
-    // dimensions
-    x: number
-    y: number
-    widthSprites: number
-    heightSprites: number
-    w: number
-    h: number
-
+class PlatformerSprite extends Sprite {
     // movement
     dx: number = 0
     dy: number = 0
@@ -66,26 +53,13 @@ class PlatformerSprite implements Positionable {
     grounded: boolean = false
     airTime: number = 0
 
-    // drawing
-    camera: Camera
-    index: number
-    colorKey: number | number[]
-    flipX: boolean = false
+    constructor(scene: Scene, config: PlatformerSpriteConfig) {
+        super(scene, config)
 
-    constructor(config: PlatformerSpriteConfig) {
-        this.x = config.x || 0
-        this.y = config.y || 0
-        this.widthSprites = config.widthSprites || 1
-        this.w = this.widthSprites * 8
-        this.heightSprites = config.heightSprites || 1
-        this.h = this.heightSprites * 8
-        this.index = config.index
-        this.colorKey = config.colorKey
         this.jumpButton = new PlatformerSpriteButton(config.jumpButton || 4)
-        this.camera = config.camera || new Camera()
     }
 
-    update() {
+    update = () => {
         const btnLeft = btn(2)
         const btnRight = btnLeft ? false : btn(3)
 
@@ -164,21 +138,8 @@ class PlatformerSprite implements Positionable {
         }
 
         if (btnRight) this.flipX = false
-        else this.flipX = true
+        if (btnLeft) this.flipX = true
 
         // animation logic TBA
-    }
-
-    draw() {
-        spr(
-            this.index,
-            this.x - this.camera.x,
-            this.y - this.camera.y,
-            this.colorKey,
-            1, // scale
-            this.flipX ? 1 : 0, // flip
-            0, // rotate
-            this.widthSprites,
-            this.heightSprites)
     }
 }

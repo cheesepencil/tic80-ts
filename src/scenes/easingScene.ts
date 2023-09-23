@@ -1,17 +1,18 @@
 /// <reference path="../lib/scene.ts" />
+/// <reference path="../lib/sprite.ts" />
 
 class EasingScene extends Scene {
-    private sprites: PlatformerSprite[] = []
     private tweens: PositionTween[] = []
 
     init = () => {
-        let ticGuy = new PlatformerSprite({
+        let ticGuy = new Sprite(this, {
             x: 0,
             y: 32,
             heightSprites: 2,
             widthSprites: 2,
             index: 1,
-            colorKey: 14,
+            colorKey: [14],
+            flipX: false,
         });
         this.sprites.push(ticGuy)
 
@@ -27,13 +28,14 @@ class EasingScene extends Scene {
         });
         this.tweens.push(tween)
 
-        ticGuy = new PlatformerSprite({
+        ticGuy = new Sprite(this, {
             x: 0,
             y: 96,
             heightSprites: 2,
             widthSprites: 2,
             index: 1,
-            colorKey: 14,
+            colorKey: [14],
+            flipX: false
         });
         this.sprites.push(ticGuy)
 
@@ -56,6 +58,5 @@ class EasingScene extends Scene {
 
     draw = () => {
         cls(13)
-        this.sprites.map(sprite => sprite.draw())
     }
 }
