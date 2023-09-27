@@ -1,6 +1,6 @@
 class Collision {
     static intersectsPointBox(
-        point: { x: number, y: number },
+        point: Vector,
         box: { x: number, y: number, w: number, h: number }
     ): boolean {
 

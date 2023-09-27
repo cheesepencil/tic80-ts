@@ -5,6 +5,7 @@ class Scene {
     camera: Camera = new Camera()
     sprites: Sprite[] = []
     map: Map | undefined
+    platforms: Platform[] = []
 
     init: () => void = () => { }
     update: () => void = () => { }
@@ -19,6 +20,9 @@ class Scene {
         }
 
         this.update()
+        for (const platform of this.platforms) {
+            platform.update()
+        }
         for (const sprite of this.sprites) {
             sprite.update()
         }
@@ -29,6 +33,9 @@ class Scene {
             map(this.map.x, this.map.y,
                 this.map.w, this.map.h,
                 -this.camera.x, -this.camera.y)
+        }
+        for (const platform of this.platforms) {
+            platform.draw()
         }
         for (let sprite of this.sprites) {
             sprite.draw()

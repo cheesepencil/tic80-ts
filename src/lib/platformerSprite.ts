@@ -105,7 +105,7 @@ class PlatformerSprite extends Sprite {
         this.y += this.dy
 
         // SIDE EFFECTS!
-        const collideFloor = Collision.collideFloorMap(this, 1)
+        const collideFloor = Collision.collideFloorMap(this, 1) || this.collidePlatforms()
         if (!collideFloor) {
             // jump anim
             this.grounded = false
@@ -141,5 +141,15 @@ class PlatformerSprite extends Sprite {
         if (btnLeft) this.flipX = true
 
         // animation logic TBA
+    }
+
+    collidePlatforms(): boolean {
+        for (const platform of this.scene.platforms) {
+            // SIDE EFFECTS!!
+            const collidePlatform = platform.collideFloor(this)
+            if (collidePlatform) return true
+        }
+
+        return false;
     }
 }
