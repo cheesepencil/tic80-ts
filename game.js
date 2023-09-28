@@ -19,7 +19,7 @@ for(var t=0,e=u.platforms;t<e.length;t++)e[t].update()
 for(var n=0,r=u.sprites;n<r.length;n++)r[n].update()
 u.camera.update(),u.draw(),u.map&&map(u.map.x,u.map.y,u.map.w,u.map.h,-u.camera.x,-u.camera.y)
 for(var i=0,o=u.platforms;i<o.length;i++)o[i].draw()
-for(var a=0,s=u.sprites;a<s.length;a++)s[a].draw()}}
+for(var s=0,a=u.sprites;s<a.length;s++)a[s].draw()}}
 var EasingScene=function(t){function EasingScene(){var n=null!==t&&t.apply(this,arguments)||this
 return n.tweens=[],n.init=function(){var t=new Sprite(n,{x:0,y:32,heightSprites:2,widthSprites:2,index:1,colorKey:[14],flipX:!1})
 n.sprites.push(t)
@@ -49,30 +49,35 @@ return n.counter=0,n.update=function(){var t=n.x
 var e=n.y
 n.counter+=1,n.x=Constants.SCREEN_WIDTH/2+32*Util.picoSin(n.counter/500),n.y=Constants.SCREEN_HEIGHT/2-32+32*Util.picoCos(n.counter/500),n.dx=n.x-t,n.dy=n.y-e},n.draw=function(){var t=Math.floor(n.w/8)
 for(var e=0;e<t;e++)spr(38,n.x+8*e-n.scene.camera.x,Math.floor(n.y-n.scene.camera.y))},n}return __extends(ExamplePlatform3,e),ExamplePlatform3}(Platform)
+var ButtonScene=function(t){function ButtonScene(){var r=null!==t&&t.apply(this,arguments)||this
+return r.counter=0,r.update=function(){btn(4)?r.counter+=1:r.counter=0},r.draw=function(){cls(14),print("Z",Constants.SCREEN_WIDTH/2,Constants.SCREEN_HEIGHT/2)
+for(var t=0;t<r.counter;t+=1){var e
+var n
+e=Constants.SCREEN_WIDTH/2+8*Util.picoSin(t/120)+2,n=Constants.SCREEN_HEIGHT/2+8*Util.picoCos(t/120)+2,rect(Math.floor(e),Math.floor(n),2,2,0)}r.counter+=1,120<r.counter&&(r.counter=0)},r}return __extends(ButtonScene,t),ButtonScene}(Scene)
 
 ;// title:  game title
 // author: game developer
 // desc:   short description
 // script: js
-var platformerScene=new PlatformerScene
-var easingScene=new EasingScene
-var activeScene=platformerScene
-function TIC(){(activeScene=btnp(5)?activeScene===platformerScene?easingScene:platformerScene:activeScene).TIC(),print("Press B to switch scenes",2,2,12)}var Collision=function(){function Collision(){}return Collision.intersectsPointBox=function(t,e){var n=!1
+var scenes=[new ButtonScene,new PlatformerScene,new EasingScene]
+var activeScene=scenes[0]
+function TIC(){var t
+btnp(5)&&(t=(scenes.indexOf(activeScene)+1)%scenes.length,activeScene=scenes[t]),activeScene.TIC(),print("Press B to switch scenes",2,2,12)}var Collision=function(){function Collision(){}return Collision.intersectsPointBox=function(t,e){var n=!1
 return n=Math.floor(t.x)>=Math.floor(e.x)&&Math.floor(t.x)<Math.floor(e.x+e.w)&&Math.floor(t.y)>=Math.floor(e.y)&&Math.floor(t.y)<Math.floor(e.y+e.h)?!0:n},Collision.intersectsBoxBox=function(t,e){var n=t.x-e.x
 var r=.5*t.w+.5*e.w
 return!(Math.abs(n)>=r||(n=t.y-e.y,r=.5*t.h+.5*e.y,Math.abs(n)>-r))},Collision.collideSideMap=function(t,e){if(t.scene.map){var n=t.h/3
 for(var r=-n;r<=n;r+=2){var i
 var o=t.x/8+t.scene.map.x
-var a=(t.y+t.h/2+r)/8+t.scene.map.y
-var s=mget(o,a)
-if(fget(s,e))return t.dx=0,t.x=8*Math.floor(t.x/8)+8,!0
-if(o=(i=t.x+t.w)/8+t.scene.map.x,a=(t.y+t.h/2+r)/8+t.scene.map.y,s=mget(o,a),fget(s,e))return t.dx=0,t.x=8*Math.floor(i/8)-t.w,!0}}return!1},Collision.collideFloorMap=function(t,e){if(!t.scene.map)return!1
+var s=(t.y+t.h/2+r)/8+t.scene.map.y
+var a=mget(o,s)
+if(fget(a,e))return t.dx=0,t.x=8*Math.floor(t.x/8)+8,!0
+if(o=(i=t.x+t.w)/8+t.scene.map.x,s=(t.y+t.h/2+r)/8+t.scene.map.y,a=mget(o,s),fget(a,e))return t.dx=0,t.x=8*Math.floor(i/8)-t.w,!0}}return!1},Collision.collideFloorMap=function(t,e){if(!t.scene.map)return!1
 if(t.dy<0)return!1
 var n=t.w/3
 var r=!1
 for(var i=-n;i<=n;i+=2){var o=(t.x+t.w/2+i)/8+t.scene.map.x
-var a=(t.y+t.h)/8+t.scene.map.y
-o=mget(o,a)
+var s=(t.y+t.h)/8+t.scene.map.y
+o=mget(o,s)
 fget(o,e)&&(t.dy=0,t.y=8*Math.floor((t.y+t.h)/8)-t.h,t.grounded=!0,r=!(t.airTime=0))}return r},Collision.collideRoofMap=function(t,e){if(!t.scene.map)return!1
 var n=t.w/3
 for(var r=-n;r<=n;r+=2){var i=(t.x+t.w/2+r)/8+t.scene.map.x
@@ -84,6 +89,8 @@ var n=2.75
 return(t=1-t)<1/n?1-e*t*t:t<2/n?1-e*(t-=1.5/n)*t-.75:t<2.5/n?1-e*(t-=2.25/n)*t-.9375:1-e*(t-=2.625/n)*t-.984375},Easing.easeOutBounce=function(t){var e=7.5625
 var n=2.75
 return t<1/n?e*t*t:t<2/n?e*(t-=1.5/n)*t+.75:t<2.5/n?e*(t-=2.25/n)*t+.9375:e*(t-=2.625/n)*t+.984375},Easing}()
+var FancyText=function(){var t=this
+this.text="Hold A to continue",this.x=Constants.SCREEN_WIDTH/2,this.y=Constants.SCREEN_HEIGHT/2,this.update=function(){},this.draw=function(){print(t.text)}}
 var Map=function(t){var e
 this.x=null!=(e=t.x)?e:0,this.y=null!=(e=t.y)?e:0,this.w=null!=(e=t.w)?e:Constants.MAP_WIDTH_DEFAULT,this.h=null!=(e=t.h)?e:Constants.MAP_HEIGHT_DEFAULT}
 var PlatformerSpriteConfig=function(t){function PlatformerSpriteConfig(){return null!==t&&t.apply(this,arguments)||this}return __extends(PlatformerSpriteConfig,t),PlatformerSpriteConfig}(SpriteConfig)
@@ -107,7 +114,7 @@ Util.picoCos=function(t){t*=2*Math.PI
 return Math.cos(t)},Util.clamp=function(t,e,n){return Math.min(Math.max(t,e),n)},Util.round=function(t){return Math.floor(t+.5)},Util.secondsToFrames=function(t){return Math.floor(60*t)},Util.lerp=function(t,e,n){return t+(e-t)*n},Util.invlerp=function(t,e,n){return e-t==0?0:(n-t)/(e-t)},Util}()
 
 // <TILES>
-// 001:e2222222228888882aaaaaaa2a8888882acccccc2acc0ccc2acc0ccc2acc0ccc
+// 001:eccccccccc888888caaaaaaaca888888cacccccccacc0ccccacc0ccccacc0ccc
 // 002:ccccceee8888cceeaaaa0cee888a0ceeccca0ccc0cca0c0c0cca0c0c0cca0c0c
 // 003:eccccccccc888888caaaaaaaca888888cacccccccacccccccacc0ccccacc0ccc
 // 004:ccccceee8888cceeaaaa0cee888a0ceeccca0cccccca0c0c0cca0c0c0cca0c0c
@@ -212,6 +219,6 @@ return Math.cos(t)},Util.clamp=function(t,e,n){return Math.min(Math.max(t,e),n)}
 // </FLAGS>
 
 // <PALETTE>
-// 000:1a1c2c5d275db13e53ef7d57ffcd75a7f07038b76425717929366f3b5dc941a6f673eff7f4f4f494b0c2566c86333c57
+// 000:1a1c2c5d275dd23e53ef7d57ffcd75a7f07038b76425717929366f3b5dc941a6f673eff7f4f4f494b0c2566c86333c57
 // </PALETTE>
 
